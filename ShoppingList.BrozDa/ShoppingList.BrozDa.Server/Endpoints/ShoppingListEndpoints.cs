@@ -11,14 +11,16 @@ namespace ShoppingList.BrozDa.Server.Endpoints
             var group = builder.MapGroup("/shopping-list");
 
             //C ------------------------------------------------------------------------
-            group.MapPost("/", async (AddShoppingListItem newItem, ShoppingListContext context) =>
+            group.MapPost("/", async (string newItemName, ShoppingListContext context) =>
             {
-                var result = await context.ShoppingList.AddAsync(new ShoppingListItem() {Name= newItem.Name,IsPickedUp = newItem.IsPickedUp});
+                ShoppingListItem newItem = new() { Name = newItemName, IsPickedUp = false };
+
+                var result = await context.ShoppingList.AddAsync(newItem);
                 
                 await context.SaveChangesAsync();
 
                 return result is not null
-                ? Results.Created($"/shopping-list/{result.Entity.Id}", result)
+                ? Results.Created($"/shopping-list/{newItem.Id}", newItem)
                 : Results.BadRequest();
             });
             //R ------------------------------------------------------------------------
@@ -41,9 +43,9 @@ namespace ShoppingList.BrozDa.Server.Endpoints
 
             //U ------------------------------------------------------------------------
 
-            group.MapPut("/{id:Guid}", async (ShoppingListItem updatedItem, ShoppingListContext context) =>
+            group.MapPut("/{id:Guid}", async (Guid id, UpdateShoppingListItem updatedItem, ShoppingListContext context) =>
             {
-                var result = await context.ShoppingList.FindAsync(updatedItem.Id);
+                var result = await context.ShoppingList.FindAsync(id);
 
                 if (result is null) { return Results.NotFound(); }
 
