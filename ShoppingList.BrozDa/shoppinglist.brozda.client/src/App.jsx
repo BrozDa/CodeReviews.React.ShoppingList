@@ -1,51 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import './App.css';
+import '../services/api.js';
+import { getAllItems } from '../services/api.js';
+import ListItem from '../components/ListItem';
 
 function App() {
-    const [forecasts, setForecasts] = useState();
+    const [shoppingList, setShoppingList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        populateWeatherData();
-    }, []);
+        const loadShoppingList = async () => {
+            try {
+                const listItems = await getAllItems();
+                setShoppingList(listItems);
+            }
+            catch (err) {
+                setError(err);
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+        loadShoppingList();
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+        }, []);
 
+    if (loading)
+        return <p>Loading</p>
+    if (error)
+        return <p>{`Error: ${error}`}</p>
     return (
         <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
+            <ul>
+                {shoppingList.map(x => <ListItem isPickedUp={x.isPickedUp} name={x.name}/>)}
+            </ul>
         </div>
     );
     
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
-        }
-    }
+  
 }
 
 export default App;
