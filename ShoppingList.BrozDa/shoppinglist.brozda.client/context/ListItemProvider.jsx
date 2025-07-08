@@ -4,6 +4,7 @@ import { ListItemContext } from "./ListItemContext";
 
 export function ListItemProvider({ children }) {
     const [items, setItems] = useState([]);
+    const [newItem, setNewItem] = useState("newItem");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -35,12 +36,17 @@ export function ListItemProvider({ children }) {
         });
     };
     const handleDelete = (itemId) => {
-        console.log("Ya clicked");
         setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+    }
+    const handleAdd = () => {
+
+        console.log(`You want to add: ${(newItem)}`)
+        setItems((prevItems) => [...prevItems, { name: newItem, isPickedUp: false }]);
+        setNewItem("Default");
     }
 
     return (
-        <ListItemContext.Provider value={{ items, toggleIsPickedUp, handleDelete, loading, error }}>
+        <ListItemContext.Provider value={{ items, toggleIsPickedUp, handleDelete, newItem, setNewItem, handleAdd, loading, error }}>
             {children}
         </ListItemContext.Provider>
     );
