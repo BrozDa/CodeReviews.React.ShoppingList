@@ -1,15 +1,13 @@
 import "../css/ListItem.css";
 
-import EditableLabel from "./EditableLabel";
 
-function ListItem({ id, name, pickedUp, onToggle, onDelete, onRename }) {
+function ListItem({ id, name, pickedUp, onToggle, onDelete }) {
 
 
     return (
         <div key={id} className="list-item-container">
             <input type="checkbox" checked={pickedUp} onChange={onToggle} />
-            <EditableLabel id={id} name={name} onToggle={onToggle} setName={onRename}/>
-            
+            <label className={pickedUp ? "picked-up" : "not-picked-up"} onClick={onToggle}>{name}</label>
             <img src="../public/delete-icon.png" onClick={onDelete} style={{ cursor: "pointer" }} />
         </div>
     );
