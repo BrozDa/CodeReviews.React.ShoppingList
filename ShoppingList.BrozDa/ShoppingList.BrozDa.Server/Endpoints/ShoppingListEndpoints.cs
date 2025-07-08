@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShoppingList.BrozDa.Server.Data;
 using ShoppingList.BrozDa.Server.Models;
 
@@ -11,7 +12,7 @@ namespace ShoppingList.BrozDa.Server.Endpoints
             var group = builder.MapGroup("/shopping-list");
 
             //C ------------------------------------------------------------------------
-            group.MapPost("/", async (string newItemName, ShoppingListContext context) =>
+            group.MapPost("/", async ([FromBody] string newItemName, ShoppingListContext context) =>
             {
                 ShoppingListItem newItem = new() { Name = newItemName, IsPickedUp = false };
 
