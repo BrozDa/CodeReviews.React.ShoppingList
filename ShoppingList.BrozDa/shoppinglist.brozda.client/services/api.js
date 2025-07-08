@@ -10,7 +10,7 @@ export const getAllItems = async () => {
     return data;
 }
 
-export const InsertNewItem = async (newItem) => {
+export const insertNewItem = async (newItem) => {
 
     const response = await fetch(`${baseUrl}/shopping-list`, {
         method: 'POST',
@@ -24,4 +24,17 @@ export const InsertNewItem = async (newItem) => {
 
     const item = await response.json();
     return item;
+}
+export const deleteItem = async (itemId) => {
+
+    const response = await fetch(`${baseUrl}/shopping-list/${itemId}`, {
+        method: 'DELETE'
+    });
+
+    if (!response.ok) {
+        if (response.status === 404) {
+            throw new Error('Item not found');
+        }
+        throw new Error('Failed to delete item from shopping list');
+    }
 }

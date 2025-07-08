@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllItems, InsertNewItem } from '../services/api.js';
+import { getAllItems, insertNewItem, deleteItem } from '../services/api.js';
 import { ListItemContext } from "./ListItemContext";
 
 export function ListItemProvider({ children }) {
@@ -35,13 +35,16 @@ export function ListItemProvider({ children }) {
             return updatedItems.slice().sort((a, b) => a.isPickedUp - b.isPickedUp);
         });
     };
-    const handleDelete = (itemId) => {
+    const handleDelete = async (itemId) => {
+
+        await deleteItem(itemId);
+       
         setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
     }
     const handleAdd = async () => {
 
         console.log(`You want to add: ${(newItem)}`)
-        const addedItem = await InsertNewItem(newItem);
+        const addedItem = await insertNewItem(newItem);
         setItems((prevItems) => [...prevItems, addedItem ]);
         setNewItem("Default");
     }
