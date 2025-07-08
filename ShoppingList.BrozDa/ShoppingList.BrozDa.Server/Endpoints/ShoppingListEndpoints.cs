@@ -55,7 +55,7 @@ namespace ShoppingList.BrozDa.Server.Endpoints
 
                 await context.SaveChangesAsync();
 
-                return Results.Ok();
+                return Results.NoContent();
             });
 
             //D ------------------------------------------------------------------------

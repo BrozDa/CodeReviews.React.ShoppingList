@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllItems, insertNewItem, deleteItem } from '../services/api.js';
+import { getAllItems, insertNewItem, deleteItem, updateItem } from '../services/api.js';
 import { ListItemContext } from "./ListItemContext";
 
 export function ListItemProvider({ children }) {
@@ -26,14 +26,20 @@ export function ListItemProvider({ children }) {
     }, []);
 
     const toggleIsPickedUp = async (itemId) => {
-        setItems((prevItems) => {
-            const updatedItems = prevItems.map((item) => item.id === itemId
-                ? { ...item, isPickedUp: !item.isPickedUp }
-                : item
-            )
 
-            return updatedItems.slice().sort((a, b) => a.isPickedUp - b.isPickedUp);
+        const updatedItem = items.find(i => i.id === itemId);
+        updatedItem.isPickedUp = !updatedItem.isPickedUp;
+
+        await updateItem(updatedItem);
+
+        setItems((prevItems) => {
+            const updatedItems = prevItems.map((item) => item.id === updatedItem.id
+                ? updatedItem
+                : item)
+
+            return updatedItems.slice().sort((a, b) => a.isPickedUp - b.isPickedUp || a.name.localeCompare(b.name));
         });
+        
     };
     const handleDelete = async (itemId) => {
 

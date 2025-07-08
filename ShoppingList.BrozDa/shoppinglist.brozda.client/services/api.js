@@ -38,3 +38,21 @@ export const deleteItem = async (itemId) => {
         throw new Error('Failed to delete item from shopping list');
     }
 }
+export const updateItem = async (updatedItem) => {
+
+    const response = await fetch(`${baseUrl}/shopping-list/${updatedItem.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedItem)
+
+    });
+
+    if (!response.ok) {
+        if (response.status === 404) {
+            throw new Error('Item not found');
+        }
+        throw new Error('Failed to delete item from shopping list');
+    }
+}
