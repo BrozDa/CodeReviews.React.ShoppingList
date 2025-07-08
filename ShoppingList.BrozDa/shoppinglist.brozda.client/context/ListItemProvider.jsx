@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
     getAllItems,
-    insertNewItem,
+    insertItem,
     deleteItem,
     updateItem,
 } from "../services/api.js";
@@ -9,7 +9,7 @@ import { ListItemContext } from "./ListItemContext";
 
 export function ListItemProvider({ children }) {
     const [items, setItems] = useState([]);
-    const [newItem, setNewItem] = useState("newItem");
+    const [newItem, setNewItem] = useState("New Item");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -27,41 +27,62 @@ export function ListItemProvider({ children }) {
         loadShoppingList();
     }, []);
 
-    const toggleIsPickedUp = async (itemId) => {
+    const handlePickupToggle = async (itemId) => {
         const updatedItem = items.find((i) => i.id === itemId);
-        updatedItem.isPickedUp = !updatedItem.isPickedUp;
 
-        await updateItem(updatedItem);
+        if (!updatedItem) {
+            setError("[handlePickupToggle] Passed item id not found");
+            return;
+        }
 
-        setItems((prevItems) => {
-            const updatedItems = prevItems.map((item) =>
-                item.id === updatedItem.id ? updatedItem : item
-            );
-
-            return updatedItems
-                .slice()
-                .sort(
-                    (a, b) => a.isPickedUp - b.isPickedUp || a.name.localeCompare(b.name)
+        try {
+            const toggledItem = {
+                ...updatedItem,
+                isPickedUp: !updatedItem.isPickedUp,
+            };
+            await updateItem(toggledItem);
+            setItems((prevItems) => {
+                const updatedItems = prevItems.map((item) =>
+                    item.id === toggledItem.id ? toggledItem : item
                 );
-        });
-    };
-    const handleDelete = async (itemId) => {
-        await deleteItem(itemId);
 
-        setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+                return updatedItems
+                    .slice()
+                    .sort(
+                        (a, b) =>
+                            a.isPickedUp - b.isPickedUp || a.name.localeCompare(b.name)
+                    );
+            });
+        } catch (err) {
+            setError(`[handlePickupToggle] ${err}`);
+        }
     };
+
+    const handleDelete = async (itemId) => {
+        try {
+            await deleteItem(itemId);
+            setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+        } catch (err) {
+            setError(`[handleDelete] ${err}`);
+        }
+    };
+
     const handleAdd = async () => {
-        console.log(`You want to add: ${newItem}`);
-        const addedItem = await insertNewItem(newItem);
-        setItems((prevItems) => [...prevItems, addedItem]);
-        setNewItem("Default");
+        try {
+            const addedItem = await insertItem(newItem);
+            setItems((prevItems) => [...prevItems, addedItem]);
+        } catch (err) {
+            setError(`[handleAdd] ${err}`);
+        } finally {
+            setNewItem("New Item");
+        }
     };
 
     return (
         <ListItemContext.Provider
             value={{
                 items,
-                toggleIsPickedUp,
+                handlePickupToggle,
                 handleDelete,
                 newItem,
                 setNewItem,
