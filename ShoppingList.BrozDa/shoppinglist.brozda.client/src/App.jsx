@@ -4,7 +4,7 @@ import ListItem from '../components/ListItem';
 import NewItem from '../components/NewItem';
 
 function App() {
-    const { items, toggleIsPickedUp, handleDelete, newItem, setNewItem, handleAdd, loading, error } = useListItems();
+    const { items, toggleIsPickedUp, handleDelete, handleRename, newItem, setNewItem, handleAdd, loading, error } = useListItems();
 
     if (loading)
         return <p>Loading</p>
@@ -26,8 +26,12 @@ function App() {
                 pickedUp={item.isPickedUp}
                 onToggle={() => toggleIsPickedUp(item.id)}
                 onDelete={() => handleDelete(item.id)}
+                onRename={(newName) => handleRename(item.id, newName)}
                 />
             )}
+            <div>
+            
+            </div>
         </div>
     );
     

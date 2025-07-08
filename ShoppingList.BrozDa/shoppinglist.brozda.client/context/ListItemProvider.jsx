@@ -41,6 +41,20 @@ export function ListItemProvider({ children }) {
         });
         
     };
+    const handleRename = async (itemId, newName) => {
+        const updatedItem = items.find(i => i.id === itemId);
+        updatedItem.name = newName;
+
+        await updateItem(updatedItem);
+
+        setItems((prevItems) => {
+            const updatedItems = prevItems.map((item) => item.id === updatedItem.id
+                ? updatedItem
+                : item)
+
+            return updatedItems.slice().sort((a, b) => a.isPickedUp - b.isPickedUp || a.name.localeCompare(b.name));
+        });
+    }
     const handleDelete = async (itemId) => {
 
         await deleteItem(itemId);
@@ -56,7 +70,7 @@ export function ListItemProvider({ children }) {
     }
 
     return (
-        <ListItemContext.Provider value={{ items, toggleIsPickedUp, handleDelete, newItem, setNewItem, handleAdd, loading, error }}>
+        <ListItemContext.Provider value={{ items, toggleIsPickedUp, handleRename, handleDelete, newItem, setNewItem, handleAdd, loading, error }}>
             {children}
         </ListItemContext.Provider>
     );
