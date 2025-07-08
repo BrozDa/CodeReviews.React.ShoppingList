@@ -1,7 +1,8 @@
-const baseUrl = "https://localhost:8001";
+const baseUrl = 'https://localhost:8001';
 
 
 export const getAllItems = async () => {
+
     const response = await fetch(`${baseUrl}/shopping-list`);
     if (!response.ok)
         throw new Error('Failed to fetch shopping list');
@@ -10,7 +11,7 @@ export const getAllItems = async () => {
     return data;
 }
 
-export const insertNewItem = async (newItem) => {
+export const insertItem = async (newItem) => {
 
     const response = await fetch(`${baseUrl}/shopping-list`, {
         method: 'POST',
@@ -53,6 +54,6 @@ export const updateItem = async (updatedItem) => {
         if (response.status === 404) {
             throw new Error('Item not found');
         }
-        throw new Error('Failed to delete item from shopping list');
+        throw new Error('Failed to update item shopping list');
     }
 }

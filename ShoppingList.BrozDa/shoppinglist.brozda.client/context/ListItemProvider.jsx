@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
     getAllItems,
     insertItem,
     deleteItem,
     updateItem,
-} from "../services/api.js";
-import { ListItemContext } from "./ListItemContext";
+} from '../services/api.js';
+import { ListItemContext } from './ListItemContext';
 
 export function ListItemProvider({ children }) {
     const [items, setItems] = useState([]);
-    const [newItem, setNewItem] = useState("New Item");
+    const [newItem, setNewItem] = useState('New Item');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -31,7 +31,7 @@ export function ListItemProvider({ children }) {
         const updatedItem = items.find((i) => i.id === itemId);
 
         if (!updatedItem) {
-            setError("[handlePickupToggle] Passed item id not found");
+            setError('[handlePickupToggle] Passed item id not found');
             return;
         }
 
@@ -74,7 +74,7 @@ export function ListItemProvider({ children }) {
         } catch (err) {
             setError(`[handleAdd] ${err}`);
         } finally {
-            setNewItem("New Item");
+            setNewItem('New Item');
         }
     };
 
