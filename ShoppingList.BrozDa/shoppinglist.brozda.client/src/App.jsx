@@ -45,6 +45,9 @@ function App() {
             <div>
                 <label>{`You picked up ${notPickedCount} of ${items.length} items`}</label>
             </div>
+            <div>
+                <label>{`Hint: You can click on item to mark it`}</label>
+            </div>
         </div>
     );
 }
