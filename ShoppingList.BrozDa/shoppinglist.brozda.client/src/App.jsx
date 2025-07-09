@@ -2,6 +2,7 @@ import '../css/App.css';
 import { useListItems } from '../context/useListItems.js';
 import ListItem from '../components/ListItem';
 import NewItem from '../components/NewItem';
+import Message from '../components/Message';
 
 function App() {
     const {
@@ -17,8 +18,11 @@ function App() {
 
     const notPickedCount = items.filter((x) => x.isPickedUp).length;
 
-    if (loading) return <p>Loading</p>;
-    if (error) return <p>{`Error: ${error}`}</p>;
+    if (error) return (<Message message={error} />)
+    if (loading) return (<Message message="Loading..." />)
+    
+    
+   
 
     return (
         <div className="shopping-list-container">

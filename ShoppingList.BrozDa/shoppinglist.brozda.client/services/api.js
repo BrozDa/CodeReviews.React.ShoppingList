@@ -27,7 +27,6 @@ export const insertItem = async (newItem) => {
     return item;
 }
 export const deleteItem = async (itemId) => {
-
     const response = await fetch(`${baseUrl}/shopping-list/${itemId}`, {
         method: 'DELETE'
     });

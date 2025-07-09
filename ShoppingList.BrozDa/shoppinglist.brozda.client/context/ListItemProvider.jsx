@@ -17,7 +17,8 @@ export function ListItemProvider({ children }) {
         const loadShoppingList = async () => {
             try {
                 const listItems = await getAllItems();
-                setItems(listItems);
+                setItems(sortItems(listItems));
+
             } catch (err) {
                 setError(err);
             } finally {
@@ -37,7 +38,7 @@ export function ListItemProvider({ children }) {
     }
     const handlePickupToggle = async (itemId) => {
         const updatedItem = items.find((i) => i.id === itemId);
-
+        
         if (!updatedItem) {
             setError('[handlePickupToggle] Passed item id not found');
             return;
@@ -76,7 +77,8 @@ export function ListItemProvider({ children }) {
 
     const handleAdd = async () => {
         try {
-            const addedItem = await insertItem(newItem);
+            const capitalized = newItem.charAt(0).toUpperCase() + newItem.slice(1);
+            const addedItem = await insertItem(capitalized);
             setItems((prevItems) => {
                 const updatedItems = [...prevItems, addedItem];
                 return sortItems(updatedItems);
