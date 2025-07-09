@@ -77,7 +77,10 @@ export function ListItemProvider({ children }) {
     const handleAdd = async () => {
         try {
             const addedItem = await insertItem(newItem);
-            setItems((prevItems) => [...prevItems, addedItem]);
+            setItems((prevItems) => {
+                const updatedItems = [...prevItems, addedItem];
+                return sortItems(updatedItems);
+            });
         } catch (err) {
             setError(`[handleAdd] ${err}`);
         } finally {

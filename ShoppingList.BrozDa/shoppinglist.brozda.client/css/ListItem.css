@@ -15,10 +15,7 @@
 #list-item-container-not-picked-up {
     background-color: hsl(356 38 50);
 }
-.list-item-container label {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
+
 .list-item-btn {
     font-size: 1rem;
     margin: 0.5rem;
@@ -31,11 +28,27 @@
 .list-item-btn:hover {
     filter: brightness(150%);
 }
-.picked-up {
-    text-decoration: line-through;
+
+.list-item-container span {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
-.not-picked-up{
-    text-decoration:none;
+
+.span-picked-up {
+    position: relative;
+    display: inline-block;
+    color: black;
+}
+.span-picked-up::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    right: -10px; 
+    top: 60%;
+    height: 3px;
+    background-color: black;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 img{
     width:20px;

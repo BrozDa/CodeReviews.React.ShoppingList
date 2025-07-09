@@ -8,9 +8,7 @@ function ListItem({ id, name, pickedUp, onToggle, onDelete }) {
             onClick={onToggle}>
 
             <input className='list-item-checkbox' type='checkbox' checked={pickedUp} onChange={onToggle} />
-            <label className={pickedUp ? 'picked-up' : 'not-picked-up'} >
-                {name}
-            </label>
+            <span className={pickedUp ? 'span-picked-up' : 'span-not-picked-up'}>{name}</span>
             <button className='list-item-btn' onClick={onDelete} >
                 <img
                     src="/delete-icon.png"
