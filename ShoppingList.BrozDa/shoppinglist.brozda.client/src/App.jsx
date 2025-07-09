@@ -1,4 +1,4 @@
-import './App.css';
+import '../css/App.css';
 import { useListItems } from '../context/useListItems.js';
 import ListItem from '../components/ListItem';
 import NewItem from '../components/NewItem';
@@ -6,7 +6,7 @@ import NewItem from '../components/NewItem';
 function App() {
     const {
         items,
-        toggleIsPickedUp,
+        handlePickupToggle,
         handleDelete,
         newItem,
         setNewItem,
@@ -21,8 +21,8 @@ function App() {
     if (error) return <p>{`Error: ${error}`}</p>;
 
     return (
-        <div>
-            <h2>Shopping List</h2>
+        <div className="shopping-list-container">
+            <h1>Shopping List</h1>
             <NewItem
                 newItem={newItem}
                 setNewItem={setNewItem}
@@ -34,7 +34,7 @@ function App() {
                     id={item.id}
                     name={item.name}
                     pickedUp={item.isPickedUp}
-                    onToggle={() => toggleIsPickedUp(item.id)}
+                    onToggle={() => handlePickupToggle(item.id)}
                     onDelete={() => handleDelete(item.id)}
                 />
             ))}

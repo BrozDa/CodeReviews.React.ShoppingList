@@ -27,6 +27,14 @@ export function ListItemProvider({ children }) {
         loadShoppingList();
     }, []);
 
+    const sortItems = (items) => {
+        return items
+            .slice()
+            .sort(
+                (a, b) =>
+                    a.isPickedUp - b.isPickedUp || a.name.localeCompare(b.name)
+            );
+    }
     const handlePickupToggle = async (itemId) => {
         const updatedItem = items.find((i) => i.id === itemId);
 
@@ -46,12 +54,7 @@ export function ListItemProvider({ children }) {
                     item.id === toggledItem.id ? toggledItem : item
                 );
 
-                return updatedItems
-                    .slice()
-                    .sort(
-                        (a, b) =>
-                            a.isPickedUp - b.isPickedUp || a.name.localeCompare(b.name)
-                    );
+                return sortItems(updatedItems);
             });
         } catch (err) {
             setError(`[handlePickupToggle] ${err}`);
@@ -61,7 +64,11 @@ export function ListItemProvider({ children }) {
     const handleDelete = async (itemId) => {
         try {
             await deleteItem(itemId);
-            setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+            setItems((prevItems) => {
+                const updatedItems = prevItems.filter((item) => item.id !== itemId);
+
+                return sortItems(updatedItems);
+            })
         } catch (err) {
             setError(`[handleDelete] ${err}`);
         }

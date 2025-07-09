@@ -1,0 +1,30 @@
+.new-item-container {
+    width:100%;
+}
+.new-item-form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content:space-between;
+    margin:3rem 1rem;
+}
+.new-item-text, .new-item-btn {
+    padding: 5px 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight:bolder;
+}
+.new-item-text {
+    width: 60%; 
+}
+
+.new-item-btn {
+    background-color: hsl(220 60 60 );
+    transition: transform 0.2s ease-in-out;
+}
+
+.new-item-btn:hover {
+     transform: scale(1.1);
+     cursor: pointer;
+}

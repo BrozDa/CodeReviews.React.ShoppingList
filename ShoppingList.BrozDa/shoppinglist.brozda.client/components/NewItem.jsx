@@ -1,14 +1,21 @@
+import '../css/NewItem.css';
+
+
 function NewItem({ newItem, setNewItem, handleAdd }) {
     return (
-        <div>
-            <form action={handleAdd}>
+        <div className ='new-item-container'>
+            <form className='new-item-form' action={handleAdd}>
                 <input
-                    id='new-item'
+                    className='new-item-text'
                     type='text'
-                    value={newItem}
+                    
+                    placeholder={newItem}
                     onChange={(e) => setNewItem(e.target.value)}
                 />
-                <input type='submit' value='Add' />
+                <input
+                    className='new-item-btn'
+                    type='submit'
+                    value='Add' />
             </form>
         </div>
     );
