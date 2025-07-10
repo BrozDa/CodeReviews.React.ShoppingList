@@ -2,6 +2,7 @@
 
 ## Project overview
 A full-stack application built with .NET (Minimal APIs) and React, demonstrating complete CRUD functionality. The backend uses .NET Minimal APIs and Entity Framework Core to manage data in an MS SQL database. On the frontend, a responsive React interface allows users to add items, mark them as picked up, or remove them from a shopping list.
+
 Link: [Shopping List](https://www.thecsharpacademy.com/project/37/shopping-list)
 
 ## Requirements
